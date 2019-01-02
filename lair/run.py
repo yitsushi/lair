@@ -6,7 +6,7 @@ from lair.project_generator import ProjectGenerator
 def main(args=sys.argv[1:]):
     parser = argparse.ArgumentParser(description='Service Example')
     parser.add_argument('--project-name', help='Name of the project',
-                        type=str, default=None, required=False)
+                        type=str, default=None, required=True)
     parser.add_argument('--dependencies',
                         help='Dependencies (comma separated list)',
                         type=str, default="flask,konfig", required=False)
@@ -19,11 +19,7 @@ def main(args=sys.argv[1:]):
 
     try:
         app.initialize()
-    except Exception as e:
+    except FileExistsError as e:
         print("!!!", e)
-        return
+        sys.exit(1)
     app.create()
-
-
-if __name__ == '__main__':
-    main()

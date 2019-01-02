@@ -30,7 +30,7 @@ class ProjectGenerator:
                         .replace('{module-name}', self.get('module-name'))
 
         if os.path.isfile(target):
-            raise Exception('File already exists: %s' % target)
+            raise FileExistsError('File already exists: %s' % target)
 
         template_file = file_path.replace('/', '_')
         if template_file[0] == '.':
@@ -51,8 +51,8 @@ class ProjectGenerator:
     def initialize(self):
         self.__root = os.path.join(os.getcwd(), self.get('project-name'))
         if os.path.isdir(self.root()):
-            raise Exception('Project directory already'
-                            'exists: %s' % self.root())
+            raise FileExistsError('Project directory already'
+                                  'exists: %s' % self.root())
 
         self.set('module-name', self.get('project-name').replace('-', '_'))
 
