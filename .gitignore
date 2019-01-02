@@ -1,0 +1,12 @@
+*.un~
+__pycache__
+.tox
+.coverage
+.Python
+lair.egg-info/
+dist/
+build/
+docs/build/
+.cache
+.pytest_cache
+.lair/
