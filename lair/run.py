@@ -7,15 +7,24 @@ def main(args=sys.argv[1:]):
     parser = argparse.ArgumentParser(description='Service Example')
     parser.add_argument('--project-name', help='Name of the project',
                         type=str, default=None, required=True)
-    parser.add_argument('--dependencies',
-                        help='Dependencies (comma separated list)',
-                        type=str, default="flask,konfig", required=False)
+    parser.add_argument('--with-db',
+                        help='With database', nargs='?',
+                        const=True, default=False, required=False)
     args = parser.parse_args(args=args)
-    args.dependencies = [x for x in args.dependencies.split(',') if x != '']
+
+    dependencies = []
+
+    if args.with_db:
+        dependencies.extend(['flask_sqlalchemy', 'sqlalchemy'])
+
+    # Make sure flask is below flask_sqlalchemy in the list
+    # otherwise it fails to install because 'flask is missing'
+    dependencies.extend(['flask', 'konfig'])
 
     app = ProjectGenerator()
     app.set('project-name', args.project_name)
-    app.set('dependencies', args.dependencies)
+    app.set('with-db', args.with_db)
+    app.set('dependencies', dependencies)
 
     try:
         app.initialize()

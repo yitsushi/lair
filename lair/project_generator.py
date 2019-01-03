@@ -59,7 +59,8 @@ class ProjectGenerator:
         globals = {
             'project_name': self.get('project-name'),
             'module_name': self.get('module-name'),
-            'now': datetime.utcnow()
+            'now': datetime.utcnow(),
+            'with_db': self.get('with-db'),
         }
         self.__jinja_env.globals.update(globals)
 
@@ -100,3 +101,11 @@ class ProjectGenerator:
         self.render('{module-name}/__init__.py')
         self.render('{module-name}/endpoints/__init__.py')
         self.render('{module-name}/endpoints/main.py')
+
+        if self.get('with-db'):
+            self.render('{module-name}/database.py')
+            os.makedirs(os.path.join(self.root(),
+                                     self.get('module-name'),
+                                     'models'))
+            self.render('{module-name}/models/__init__.py')
+            self.render('{module-name}/models/example.py')

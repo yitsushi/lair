@@ -3,6 +3,7 @@ import sys
 import os
 import signal
 from {{ module_name }}.app import create
+{% if with_db %}from {{module_name}}.database import db{% endif %}
 
 
 def _quit(signal, frame):
@@ -31,6 +32,12 @@ def main(args=sys.argv[1:]):
 
     signal.signal(signal.SIGINT, _quit)
     signal.signal(signal.SIGTERM, _quit)
+{% if with_db %}
+
+    db.init_app(app)
+    db.app = app
+    db.create_all(app=app)
+{% endif %}
 
     app.run(debug=debug, host=host, port=port)
 

@@ -41,6 +41,7 @@ class TestProjectGenerator(TestCase):
     def test_create(self):
         self.pg.set('project-name', 'test-project')
         self.pg.set('dependencies', ['flask'])
+        self.pg.set('with-db', True)
         self.pg.initialize()
         self.pg.create()
 

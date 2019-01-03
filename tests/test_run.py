@@ -39,16 +39,20 @@ class TestRun(TestCase):
         with open('test-project/requirements.txt', 'r') as f:
             self.assertEqual(f.read(), 'flask\nkonfig\n')
 
+        self.assertFalse(os.path.isfile('test-project/test_project/models/example.py'))
+
         with self.assertRaises(SystemExit) as cm:
             main(['--project-name=test-project'])
 
         self.assertEqual(cm.exception.code, 1)
 
-    def test_dependencies(self):
-        main(['--project-name=test-project', '--dependencies=random,something'])
+    def test_with_database(self):
+        main(['--project-name=test-project', '--with-db'])
 
         self.assertTrue(os.path.isdir('test-project'))
         self.assertTrue(os.path.isfile('test-project/requirements.txt'))
 
         with open('test-project/requirements.txt') as f:
-            self.assertEqual(f.read(), 'random\nsomething\n')
+            self.assertEqual(f.read(), 'flask_sqlalchemy\nsqlalchemy\nflask\nkonfig\n')
+
+        self.assertTrue(os.path.isfile('test-project/test_project/models/example.py'))
