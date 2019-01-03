@@ -1,6 +1,7 @@
 include requirements.txt
 include README.rst
-recursive-include lair *.ini
+include LICENSE
+recursive-include lair *.ini *.j2
 recursive-include docs *.rst *.png *.svg *.css *.html conf.py
 prune docs/build/*
 
