@@ -1,3 +1,7 @@
 flake8
 tox
+mock
 pyfakefs
+coveralls
+pytest-cov
+pytest
