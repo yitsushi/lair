@@ -4,7 +4,17 @@ lair
 **lair** is a small lightweight helper to create eggs
 for flask based microservices.
 
+**For details and extra helpers, read the
+documentation: https://lair.readthedocs.io/en/latest/**
+
+In the docs:
+  * CLI usage
+  * built-in decorators
+  * built-in Blueprints
+
 Example usage:
+~~~~~~~~~~~~~~
+
 ::
 
    # This will generate a project directory
@@ -17,6 +27,7 @@ Example usage:
    # project-dir/project_name/models/example.txt
    #  to use this as a model just rename from .txt to .py
    lair --project-name my-shiny-project --with-db
+
 
 .. image:: https://coveralls.io/repos/github/yitsushi/lair/badge.svg?branch=master
    :target: https://coveralls.io/github/yitsushi/lair?branch=master
