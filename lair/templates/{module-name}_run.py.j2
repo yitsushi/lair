@@ -1,47 +1,14 @@
-import argparse
-import sys
 import os
-import signal
-from {{ module_name }}.app import create
-{% if with_db %}from {{module_name}}.database import db{% endif %}
+import click
+from flask.cli import FlaskGroup
+from sql.app import create
 
 
-def _quit(signal, frame):
-    print('Shutting down!')
-    sys.exit(0)
-
-
-def main(args=sys.argv[1:]):
-    parser = argparse.ArgumentParser(description='{{ project_name }}')
-    parser.add_argument('--config-file', help='Config file',
-                        type=str, default=None)
-    args = parser.parse_args(args=args)
-
-    if args.config_file is not None:
-        os.environ.set('FLASK_SETTINGS', args.config_file)
-
-    app = create()
-
-    host = app.config.get('host', '0.0.0.0')
-    host = os.environ.get('HOST', host)
-
-    port = app.config.get('port', 5000)
-    port = os.environ.get('PORT', port)
-
-    debug = app.config.get('DEBUG', False)
-
-    signal.signal(signal.SIGINT, _quit)
-    signal.signal(signal.SIGTERM, _quit)
-{% if with_db %}
-
-    db.init_app(app)
-    db.app = app
-    db.create_all(app=app)
-{% endif %}
-
-    app.run(debug=debug, host=host, port=port)
-
-
-if __name__ == "__main__":
-    main()
+@click.group(cls=FlaskGroup, create_app=create)
+@click.option('--config-file', help='Config file', type=str, default=None)
+@click.option('--debug/--no-debug', help='Enable FLASK_DEBUG', default=False)
+def cli(config_file, debug):
+    os.environ['FLASK_DEBUG'] = '1' if debug else '0'
+    if config_file is not None:
+        os.environ['FLASK_SETTINGS'] = config_file
 

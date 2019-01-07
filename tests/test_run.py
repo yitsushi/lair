@@ -4,6 +4,9 @@ from lair.run import main
 import lair
 
 
+DEFAULT_DEPS = 'lair\nflask\nclick\nkonfig\n'
+DB_DEPS = f'flask_migrate\nflask_sqlalchemy\nsqlalchemy\n{DEFAULT_DEPS}'
+
 class TestRun(TestCase):
     def setUp(self):
         # We need all the template files
@@ -28,7 +31,7 @@ class TestRun(TestCase):
         self.assertTrue(os.path.isfile('test-project/requirements.txt'))
 
         with open('test-project/requirements.txt', 'r') as f:
-            self.assertEqual(f.read(), 'flask\nkonfig\n')
+            self.assertEqual(f.read(), DEFAULT_DEPS)
 
     def test_project_name_rerun(self):
         main(['--project-name=test-project'])
@@ -37,7 +40,7 @@ class TestRun(TestCase):
         self.assertTrue(os.path.isfile('test-project/requirements.txt'))
 
         with open('test-project/requirements.txt', 'r') as f:
-            self.assertEqual(f.read(), 'flask\nkonfig\n')
+            self.assertEqual(f.read(), DEFAULT_DEPS)
 
         self.assertFalse(os.path.isfile('test-project/test_project/models/example.py'))
 
@@ -53,6 +56,6 @@ class TestRun(TestCase):
         self.assertTrue(os.path.isfile('test-project/requirements.txt'))
 
         with open('test-project/requirements.txt') as f:
-            self.assertEqual(f.read(), 'flask_sqlalchemy\nsqlalchemy\nflask\nkonfig\n')
+            self.assertEqual(f.read(), DB_DEPS)
 
         self.assertTrue(os.path.isfile('test-project/test_project/models/example.py'))

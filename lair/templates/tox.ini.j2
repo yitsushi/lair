@@ -3,10 +3,8 @@ envlist = py37,flake8,docs
 
 [testenv]
 passenv = TRAVIS TRAVIS_JOB_ID TRAVIS_BRANCH
-deps = pytest
-       pytest-cov
-       coveralls
-       -rrequirements.txt
+deps = -rrequirements.txt
+       -rtest-requirements.txt
 
 commands =
     pytest --cov-config .coveragerc --cov {{ module_name }} tests
