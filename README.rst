@@ -6,6 +6,7 @@ for flask based microservices.
 
 Example usage:
 ::
+
    # This will generate a project directory
    # for your new microservice with Flask
    lair --project-name my-shiny-project
