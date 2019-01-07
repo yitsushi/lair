@@ -1,6 +1,8 @@
 import os
 from flask import Flask
 from konfig import Config
+from flask_migrate import Migrate
+{% if with_db %}from {{module_name}}.database import db{% endif %}
 from {{ module_name }}.endpoints import blueprints
 
 
@@ -12,14 +14,33 @@ def create():
     app.config_file = Config(settings)
     app.config.update(app.config_file.get_map('flask'))
 
+    db.init_app(app)
+    db.app = app
+
+{% if with_db %}
+    Migrate(app, db)
+{% endif %}
+
+    @app.shell_context_processor
+    def make_shell_context():
+        context = {
+            'app': app,
+{% if with_db %}
+            'db': db,
+            'models': {},
+{% endif %}
+        }
+{% if with_db %}
+        for cls in db.Model._decl_class_registry.values():
+            if isinstance(cls, type) and issubclass(cls, db.Model):
+                context['models'][cls.__name__] = cls
+{% endif %}
+
+        return dict(**context)
+
     for blueprint in blueprints:
         app.register_blueprint(blueprint['pkg'],
                                url_prefix=blueprint['prefix'])
 
     return app
-
-
-if __name__ == '__main__':
-    app = create()
-    app.run()
 

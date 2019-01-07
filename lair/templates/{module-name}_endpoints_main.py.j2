@@ -1,23 +1,19 @@
 from flask import Blueprint, jsonify
+from lair import blueprints
 {% if with_db %}from {{module_name}}.database import db
 from {{module_name}}.models.example import Example{% endif %}
 
-
-main = Blueprint('main', __name__)
+main = blueprints.Json('main', __name__)
 
 
 @main.route('/')
 def index():
     """Home view.
     This view will return an simple JSON mapping.
-
-        {
-            "valid_endpoint": true
-        }
     """
 {% if with_db %}
-    return jsonify([str(e) for e in db.session.query(Example)])
+    return [str(e) for e in db.session.query(Example)]
 {% else %}
-    return jsonify({'valid_endpoint': True})
+    return {'valid_endpoint': True}
 {% endif %}
 
