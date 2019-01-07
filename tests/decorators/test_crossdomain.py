@@ -4,7 +4,7 @@ from datetime import timedelta
 import flask
 
 
-class TestRun(TestCase):
+class TestCrossdomain(TestCase):
     app = None
 
     def setUp(self):
