@@ -4,16 +4,10 @@ lair
 **lair** is a small lightweight helper to create eggs
 for flask based microservices.
 
-Example usage:
-::
+.. toctree::
+    :maxdepth: 2
 
-   # This will generate a project directory
-   # for your new microservice with Flask
-   lair --project-name my-shiny-project
+    cli
+    blueprints
+    decorators
 
-   # This will generate a  project directory
-   # for your new microservice with Flask and SqlAlchemy,
-   # and place an example modell in
-   # project-dir/project_name/models/example.txt
-   #  to use this as a model just rename from .txt to .py
-   lair --project-name my-shiny-project --with-db

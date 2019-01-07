@@ -9,35 +9,59 @@ def crossdomain(origin, methods=None, headers=None,
     """
     Snippet from: http://flask.pocoo.org/snippets/56/
 
-    Example:
+    Allow requests from everywhere:
+
+    ::
+
+        @app.route('/')
+        @crossdomain('*')
+        def index():
+            return 'All requests are welcome!'
+
+    Only from a given domain:
+
+    ::
+
+        @app.route('/')
+        @crossdomain(['test.domain.tld'])
+        def index():
+            return 'All requests are welcome, '\
+                   'but only from test.domain.tld!'
+
+    Only GET and OPTIONS are allowed:
+
+    ::
+
         @app.route('/my_service', methods=['GET', 'OPTIONS'])
         @crossdomain(origin='*')
         def my_service():
-            return jsonify(foo='cross domain ftw')
+            return 'GET only for crossdomain'
 
     :param origin:List[str]
-            '*' to allow all origins, otherwise a string with a URL
-            or a list of URLs that might access the resource.
+        '*' to allow all origins, otherwise a string with a URL
+        or a list of URLs that might access the resource.
     :param methods:List[str]
-            Optionally a list of methods that are allowed for this view.
-            If not provided it will allow all methods that are implemented.
+        Optionally a list of methods that are allowed for this view.
+        If not provided it will allow all methods that are implemented.
     :param headers:List[str]
-            Access-Control-Allow-Headers;
-            Optionally a list of headers that are allowed for this request.
+        Access-Control-Allow-Headers;
+        Optionally a list of headers that are allowed for this request.
     :param max_age:int
-            Access-Control-Max-Age;
-            The number of seconds as integer or timedelta object
-            for which the preflighted request is valid.
+        Access-Control-Max-Age;
+        The number of seconds as integer or timedelta object
+        for which the preflighted request is valid.
     :param attach_to_all:bool
-            True if the decorator should add the access control headers
-            to all HTTP methods or False if it should only add
-            them to OPTIONS responses.
+        True if the decorator should add the access control headers
+        to all HTTP methods or False if it should only add
+        them to OPTIONS responses.
     :param automatic_options:bool
-            If enabled the decorator will use the default Flask OPTIONS
-            response and attach the headers there, otherwise the view
-            function will be called to generate an appropriate response.
-    :return: Flask Decorator
+        If enabled the decorator will use the default Flask OPTIONS
+        response and attach the headers there, otherwise the view
+        function will be called to generate an appropriate response.
+    :return Callable
+        Flask Decorator
     """
+
     if methods is not None:
         methods = ', '.join(sorted(x.upper() for x in methods))
     if headers is not None and not isinstance(headers, str):
