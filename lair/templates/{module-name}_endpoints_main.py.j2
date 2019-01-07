@@ -1,4 +1,3 @@
-from flask import Blueprint, jsonify
 from lair import blueprints
 {% if with_db %}from {{module_name}}.database import db
 from {{module_name}}.models.example import Example{% endif %}
@@ -16,4 +15,3 @@ def index():
 {% else %}
     return {'valid_endpoint': True}
 {% endif %}
-

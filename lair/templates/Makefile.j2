@@ -19,7 +19,7 @@ clean:
 	rm -rf $(VENV)
 
 test_dependencies:
-	$(INSTALL) flake8 tox
+	$(INSTALL) -r test-requirements.txt
 
 test: build test_dependencies
 	$(BIN)/flake8 {{ module_name }}

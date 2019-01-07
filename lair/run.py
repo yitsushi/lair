@@ -15,14 +15,13 @@ def main(args=sys.argv[1:]):
     dependencies = []
 
     if args.with_db:
-        dependencies.extend([
-            'flask_migrate',
-            'flask_sqlalchemy',
-            'sqlalchemy'])
+        dependencies.extend(['flask_migrate',
+                             'flask_sqlalchemy',
+                             'sqlalchemy'])
 
     # Make sure flask is below flask_sqlalchemy in the list
     # otherwise it fails to install because 'flask is missing'
-    dependencies.extend(['flask', 'click', 'konfig'])
+    dependencies.extend(['lair', 'flask', 'click', 'konfig'])
 
     app = ProjectGenerator()
     app.set('project-name', args.project_name)

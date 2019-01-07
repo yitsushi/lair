@@ -83,6 +83,7 @@ class ProjectGenerator:
         self.render('tests/__init__.py')
         self.render('tests/endpoints/__init__.py')
         self.render('tests/endpoints/test_main.py')
+        self.render('test-requirements.txt')
 
         # Docs
         os.makedirs(os.path.join(self.root(), 'docs', 'source', '_static'))

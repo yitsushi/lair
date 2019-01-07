@@ -40,7 +40,7 @@ class Json(Blueprint):
             def _json(f):
                 def __json(*args, **kw):
                     res = f(*args, **kw)
-                    if isinstance(res, dict):
+                    if isinstance(res, dict) or isinstance(res, list):
                         with self.app.app_context():
                             res = jsonify(res)
                     return res
