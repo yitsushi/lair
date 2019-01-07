@@ -4,6 +4,13 @@ lair
 **lair** is a small lightweight helper to create eggs
 for flask based microservices.
 
+Install
+~~~~~~~
+
+::
+
+   pip install lair
+
 **For details and extra helpers, read the
 documentation: https://lair.readthedocs.io/en/latest/**
 
